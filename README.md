@@ -1,7 +1,7 @@
 SML
 ===
 
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/kartikkumar/sml.svg?branch=master)](https://travis-ci.org/kartikkumar/sml)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/kartikkumar/sml.svg?branch=master)](https://travis-ci.org/kartikkumar/sml) [![Coverity Scan Build Status](https://scan.coverity.com/projects/3666/badge.svg)](https://scan.coverity.com/projects/3666") [![Coverage Status](https://coveralls.io/repos/kartikkumar/sml/badge.png)](https://coveralls.io/r/kartikkumar/sml)
 
 `Simple Maths Library (SML)` is a C++ template library that provides some basic mathematics functionality.
 
@@ -54,14 +54,15 @@ Build options
 You can pass the follow command-line options when running `CMake`:
 
   - `-DBUILD_DOCS=[on|off (default)]`: build the [Doxygen](http://www.doxygen.org "Doxygen homepage") documentation ([LaTeX](http://www.latex-project.org/) must be installed with `amsmath` package)
-  - `-DBUILD_TESTS`=[on|off (default)]: build tests (execute tests from build-directory using `make test`)
-  - `-DBUILD_WITH_EIGEN=[on|off (default)]`: build tests using [Eigen](http://eigen.tuxfamily.org/)
+  - `-DBUILD_TESTS`=[on|off (default)]: build tests (execute tests from build-directory using `ctest -V`)
+  - `-DBUILD_WITH_EIGEN=[on|off (default)]`: build tests using [Eigen](http://eigen.tuxfamily.org/) (execute tests from build-directory using `ctest -V`)
+  - `-DRUN_TEST_COVERAGE=[on|off (default)]`: run test coverage analysis using [Gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html) and [LCOV](http://ltp.sourceforge.net/coverage/lcov.php) (execute test coverage analysis from build-directory using `make ${MYPROJ_TEST_COVERAGE}`, where the variable `MYPROJ_TEST_COVERAGE` should be passed to CMake)
   - `-DBUILD_SHARED_LIBS=[on|off (default)]`: build shared libraries instead of static
   - `-DCMAKE_INSTALL_PREFIX`: set path prefix for install script (`make install`); if not set, defaults to usual locations
   - `-DFORCE_DEPENDENCIES_BUILD=[on|off (default)]`: force local build of dependencies, instead of first searching system-wide using `find_package()`
   - `-DMYLIB_PATH[=build_dir/lib (default]`: set library path
   - `-DMYBIN_PATH[=build_dir/bin (default]`: set binary path
-  - `-DMYTEST_PATH[=build_dir/tests (default]`: set tests path  
+  - `-DMYTEST_PATH[=build_dir/tests (default]`: set tests path
 
 Contributing
 ------------
@@ -74,21 +75,10 @@ Once you've made your great commits:
   4. Create a [Pull Request](http://help.github.com/pull-requests/) from your branch
   5. That's it!
 
-License
-------
-
-See `LICENSE.md`.
-
 Disclaimer
 ------
 
 The copyright holders are not liable for any damage(s) incurred due to improper use of `SML`.
-
-Contact
-------
-
-Shoot an [email](mailto:me@kartikkumar.com?subject=SML) if you have any questions.
-
 
 TODO
 ------

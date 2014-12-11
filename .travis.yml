@@ -1,22 +1,34 @@
 language: cpp
 
 compiler:
-  - clang
   - gcc
+  - clang
 
 env:
-  - BUILD_TYPE=Debug
-  - BUILD_TYPE=Release
-
-before_install:
+  global:
+    secure: "V4NUAJrnSGb5lTKksAS+SoVuzN5v8XPs7VQ2PfACuYRM9gUs4DEEDKTeKtCX0nn0CgEtI5KlOcTWXeneVTQTP64qqaIP/s7HZ6LLjAZFSWHM5R8H4ThxUfFq17Ii8guvMKGVjPPlLGI+mrQ/E9dxzbgvKazaVyjxn9vr0Z8Bbas="
+    - if [ "$CXX" = "g++" ]; then RUN_TEST_COVERAGE=on; else RUN_TEST_COVERAGE=off; fi
 
 install:
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov rubygems; fi
+  - if [ "$CXX" = "g++" ]; then gem install lcoveralls; fi
+
+addons:
+  coverity_scan:
+    project:
+      name: "kartikkumar/sml"
+    notification_email: me@kartikkumar.com
+    build_command_prepend: "mkdir build; cd build; cmake -DBUILD_TESTS=on -DBUILD_TESTS_WITH_EIGEN=on .."
+    build_command:   "make; ctest -V"
+    branch_pattern: coverity_scan
+
+before_script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTS=on -DBUILD_TESTS_WITH_EIGEN=on -DFORCE_DEPENDENCIES_BUILD=on ..
-  - make
-  - cd ..
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DRUN_TEST_COVERAGE=on -DBUILD_TESTS=on -DBUILD_TESTS_WITH_EIGEN=on ..
 
 script:
-  - cd build
-  - ctest -V
+  - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then make; ctest -V; fi
+
+after_success:
+  - if [ "$CXX" = "g++" ]; then make test_coverage && lcoveralls --retry-count 5; fi
